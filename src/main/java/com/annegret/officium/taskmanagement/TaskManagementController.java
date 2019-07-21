@@ -9,19 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+@RestController
 public class TaskManagementController {
 
     @Autowired
     private TaskRepository taskRepository;
 
-    @PostMapping("/tasks/tasks")
-    @ResponseBody
+    @PostMapping("/tasks")
     public TaskResponse addTask(@RequestBody TaskRequest taskRequest) throws Exception {
         try {
+
             TaskEntity taskEntity=new TaskEntity(taskRequest);
             taskRepository.save(taskEntity);
-            TaskResponse taskResponse=new TaskResponse(taskEntity);
-            return taskResponse;
+            return new TaskResponse(taskEntity);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task couldn't be created");
@@ -29,7 +29,7 @@ public class TaskManagementController {
 
     }
 
-    @GetMapping("/tasks/{name}")
+    @GetMapping("tasks/{name}")
     @ResponseBody
     public String getHealthStatus(@PathVariable String name) throws Exception {
         try {
