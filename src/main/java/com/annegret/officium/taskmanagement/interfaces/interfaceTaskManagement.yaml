@@ -12,7 +12,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskValue'
+              $ref: '#/components/schemas/TaskRequest'
       responses:
         '200':
           description: Successful operation
@@ -151,12 +151,36 @@ paths:
 
 components:
   schemas:
+    TaskRequest:
+      description: Values for a creation or an update of a request
+      required:
+        - Name
+      properties:
+        Name:
+          description: Name of the according task
+          type: string
+          example: Create a new task management
+        Description:
+          description: Description of the task
+          type: string
+          example: Create a new task management to show how microservices work
+        Assignee:
+          description: User ID of the user who is assigned to the according task
+          type: string
+          format: UUID
+          example: bf62265f-77e3-413c-b40a-0a72da00b7b6
+
     TaskValue:
       description: Task for creation which is assigned to a user, at creation the task
         gets the initial status which is defined in project, but other states can be given
       required:
         - Name
       properties:
+        Id:
+          description: ID of the according task
+          type: string
+          format: UUID
+          example: e7a33e5b-24e5-4f15-9c55-cde3c73895c8
         Name:
           description: Name of the according task
           type: string
@@ -175,21 +199,17 @@ components:
           type: string
           default: NEW
           example: NEW
-    TaskType:
-      description: Task assigned to a user in different states
-      required:
-        - TaskValue
-      properties:
-        Id:
-          description: ID of the according task
-          type: string
-          format: UUID
-          example: e7a33e5b-24e5-4f15-9c55-cde3c73895c8
         Updated:
           description: Time when the task was updated the last time
           type: string
           format: date-time
           example: '2019-07-20T12:46:34'
+
+    TaskType:
+      description: Task assigned to a user in different states
+      required:
+        - TaskValue
+      properties:
         TaskValue:
           $ref: '#/components/schemas/TaskValue'
         UsefulLinks:

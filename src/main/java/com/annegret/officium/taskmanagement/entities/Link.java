@@ -1,6 +1,6 @@
 package com.annegret.officium.taskmanagement.entities;
 
-public class link {
+public class Link {
 
     public enum linkType {
         PDF,
@@ -19,11 +19,11 @@ public class link {
 
     private relation relation;
 
-    public link() {
+    public Link() {
 
     }
 
-    public link (String href, linkType linkType, relation relation) {
+    public Link(String href, linkType linkType, relation relation) {
         this.href=href;
         this.linkType=linkType;
         this.relation=relation;
@@ -37,19 +37,19 @@ public class link {
         this.href = href;
     }
 
-    public link.linkType getLinkType() {
+    public Link.linkType getLinkType() {
         return linkType;
     }
 
-    public void setLinkType(link.linkType linkType) {
+    public void setLinkType(Link.linkType linkType) {
         this.linkType = linkType;
     }
 
-    public link.relation getRelation() {
+    public Link.relation getRelation() {
         return relation;
     }
 
-    public void setRelation(link.relation relation) {
+    public void setRelation(Link.relation relation) {
         this.relation = relation;
     }
 }
