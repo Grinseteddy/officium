@@ -12,15 +12,24 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class TaskManagementController {
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
+
+    public TaskManagementController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @PostMapping("/tasks")
-    public TaskResponse addTask(@RequestBody TaskRequest taskRequest) throws Exception {
+    public TaskResponse addTask(@RequestBody TaskRequest taskRequest) throws ResponseStatusException {
         try {
 
+            if (taskRequest==null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task Request needs to be filled");
+            }
+            if (taskRequest.getName()==null || taskRequest.getName().isEmpty() ) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task name needs to be filled");
+            }
             TaskEntity taskEntity=new TaskEntity(taskRequest);
-            
+
             taskRepository.save(taskEntity);
             return new TaskResponse(taskEntity);
 
@@ -32,8 +41,11 @@ public class TaskManagementController {
 
     @GetMapping("tasks/{name}")
     @ResponseBody
-    public String getHealthStatus(@PathVariable String name) throws Exception {
+    public String getHealthStatus(@PathVariable String name) throws ResponseStatusException {
         try {
+            if (name.isEmpty() || name==null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name can't be empty");
+            }
             return "All things are fine "+name;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nothing known");
