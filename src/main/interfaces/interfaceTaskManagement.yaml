@@ -1,0 +1,259 @@
+openapi: 3.0.2
+info:
+  title: Officium Task Management
+  description: Task management service for light weight task management Officium
+  version: 1.0.0
+paths:
+  /tasks:
+    post:
+      description: Creates a new task with the given attribtues, duplicates are allowed
+      operationId: addTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskValue'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskType'
+        default:
+          description: Task couldn't be created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+
+  /tasks/{taskId}:
+    get:
+      description: Gets a certain task by its ID
+      operationId: getTaskById
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskType'
+        default:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+    put:
+      description: Updates a task with the according parameters
+      operationId: upateTaskById
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskValue'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskType'
+        default:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  /tasks/user/{userId}:
+    get:
+      description: Returns all tasks assgined to a given user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskType'
+        default:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  /tasks/project/{projectId}:
+    get:
+      description: Returns all tasks belonging to a certain project
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskType'
+        default:
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  /tasks/name/{name}:
+    get:
+      description: Returns all tasks where the name of the tasks matches the given
+        parameter
+      parameters:
+        - name: name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskType'
+        default:
+          description: Name not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+
+
+
+
+components:
+  schemas:
+    TaskValue:
+      description: Task for creation which is assigned to a user, at creation the task
+        gets the initial status which is defined in project, but other states can be given
+      required:
+        - Name
+      properties:
+        Name:
+          description: Name of the according task
+          type: string
+          example: Create a new task management
+        Description:
+          description: Description of the task
+          type: string
+          example: Create a new task management to show how microservices work
+        Assignee:
+          description: User ID of the user who is assigned to the according task
+          type: string
+          format: UUID
+          example: bf62265f-77e3-413c-b40a-0a72da00b7b6
+        Status:
+          description: Status of the task
+          type: string
+          default: NEW
+          example: NEW
+    TaskType:
+      description: Task assigned to a user in different states
+      required:
+        - TaskValue
+      properties:
+        Id:
+          description: ID of the according task
+          type: string
+          format: UUID
+          example: e7a33e5b-24e5-4f15-9c55-cde3c73895c8
+        Updated:
+          description: Time when the task was updated the last time
+          type: string
+          format: date-time
+          example: '2019-07-20T12:46:34'
+        TaskValue:
+          $ref: '#/components/schemas/TaskValue'
+        UsefulLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsefulLink'
+        Message:
+          $ref: '#/components/schemas/Message'
+
+    UsefulLink:
+      description: Link to an object which can be enhanced
+      properties:
+        href:
+          type: string
+          format: uriref
+          description: Referenz link to a helpful information
+          example: 'http://mytaskmanagerserver/users/bf62265f-77e3-413c-b40a-0a72da00b7b'
+        type:
+          type: string
+          description: type of according reference
+          enum:
+            - PDF
+            - Hyperlink
+          example: Hyperlink
+        relation:
+          type: string
+          description: Relation of the according link to the provided object, Object usually
+            means the access to the object itself
+          enum:
+            - Object
+            - Assignee
+            - Thread
+          example: Assignee
+
+    Message:
+      description: Message in case of an error
+      required:
+        - Code
+        - Severity
+        - Message
+        - TrackingId
+      properties:
+        Code:
+          type: string
+          description: Code of the according error
+          example: TASKCREATED
+        Severity:
+          type: string
+          description: Severity of the according message
+          enum:
+            - SUCCESS
+            - WARNING
+            - ERROR
+            - CRITICALERROR
+          example: SUCCESS
+        Message:
+          type: string
+          description: Message of the according action
+          example: Task Create a new task management successfully created
+        TrackingId:
+          type: string
+          description: Unique ID to follow a message through the entire system
+          example: 30ddd105-fe30-4b4a-b993-379ef903201b
+
+
+
+
