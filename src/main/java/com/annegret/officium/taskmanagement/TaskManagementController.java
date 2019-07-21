@@ -39,16 +39,18 @@ public class TaskManagementController {
 
     }
 
-    @GetMapping("tasks/{name}")
+    @GetMapping("tasks/{taskId}")
     @ResponseBody
-    public String getHealthStatus(@PathVariable String name) throws ResponseStatusException {
+    public TaskResponse getTaskById(@PathVariable String taskId) throws ResponseStatusException {
         try {
-            if (name.isEmpty() || name==null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name can't be empty");
+            if (taskId.isEmpty() || taskId==null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task ID required");
             }
-            return "All things are fine "+name;
+            TaskEntity taskEntity=taskRepository.findTaskEntitiesById(taskId);
+            return new TaskResponse(taskEntity);
+
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nothing known");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No task found");
         }
     }
 
