@@ -4,7 +4,6 @@ import com.annegret.officium.taskmanagement.entities.TaskEntity;
 import com.annegret.officium.taskmanagement.entities.TaskRepository;
 import com.annegret.officium.taskmanagement.entities.TaskRequest;
 import com.annegret.officium.taskmanagement.entities.TaskResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -43,7 +42,7 @@ public class TaskManagementController {
     @ResponseBody
     public TaskResponse getTaskById(@PathVariable String taskId) throws ResponseStatusException {
         try {
-            if (taskId.isEmpty() || taskId==null) {
+            if (taskId.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task ID required");
             }
             TaskEntity taskEntity=taskRepository.findTaskEntitiesById(taskId);
