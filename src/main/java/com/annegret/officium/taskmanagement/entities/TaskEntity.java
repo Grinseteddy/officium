@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -43,6 +44,9 @@ public class TaskEntity {
     @Column(name = "thread")
     private String thread;
 
+    @Column(name="duedate")
+    private LocalDate duedate;
+
     public TaskEntity() {
 
     }
@@ -66,6 +70,29 @@ public class TaskEntity {
         this.createdBy="21a2bac3-a2c4-4e45-b6da-2248bb36b82e";
 
         this.thread=null;
+    }
+
+    public TaskEntity(String name, String description, String assignee, LocalDate duedate) {
+        this.id= UUID.randomUUID().toString();
+        this.name=name;
+        this.description=description;
+        this.assignee=assignee;
+
+        //TODO get status model from project management
+        this.status="NEW";
+
+        //TODO get session user from somewhere
+        this.updatedBy="21a2bac3-a2c4-4e45-b6da-2248bb36b82e";
+
+        this.updatedAt=LocalDateTime.now();
+
+        this.createdAt=LocalDateTime.now();
+
+        this.createdBy="21a2bac3-a2c4-4e45-b6da-2248bb36b82e";
+
+        this.thread=null;
+
+        this.duedate=duedate;
     }
 
     public TaskEntity(TaskRequest taskRequest) {
@@ -167,5 +194,13 @@ public class TaskEntity {
 
     public void setThread(String thread) {
         this.thread=thread;
+    }
+
+    public LocalDate getDuedate() {
+        return duedate;
+    }
+
+    public void setDuedate(LocalDate duedate) {
+        this.duedate = duedate;
     }
 }

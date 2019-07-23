@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskType'
+                $ref: '#/components/schemas/TaskEntity'
         default:
           description: Task couldn't be created
           content:
@@ -42,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskType'
+                $ref: '#/components/schemas/TaskEntity'
         default:
           description: Task not found
           content:
@@ -60,14 +60,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskValue'
+              $ref: '#/components/schemas/TaskEntity'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskType'
+                $ref: '#/components/schemas/TaskResponse'
         default:
           description: Task not found
           content:
@@ -90,7 +90,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskType'
+                  $ref: '#/components/schemas/TaskResponse'
         default:
           description: User not found
           content:
@@ -113,7 +113,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskType'
+                  $ref: '#/components/schemas/TaskEntity'
         default:
           description: Project not found
           content:
@@ -137,7 +137,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskType'
+                  $ref: '#/components/schemas/TaskEntity'
         default:
           description: Name not found
           content:
@@ -169,8 +169,13 @@ components:
           type: string
           format: UUID
           example: bf62265f-77e3-413c-b40a-0a72da00b7b6
+        DueDate:
+          description: Due date of the according task
+          type: string
+          format: date
+          example: 2019-07-23
 
-    TaskValue:
+    TaskEntity:
       description: Task for creation which is assigned to a user, at creation the task
         gets the initial status which is defined in project, but other states can be given
       required:
@@ -205,13 +210,13 @@ components:
           format: date-time
           example: '2019-07-20T12:46:34'
 
-    TaskType:
+    TaskResponse:
       description: Task assigned to a user in different states
       required:
         - TaskValue
       properties:
         TaskValue:
-          $ref: '#/components/schemas/TaskValue'
+          $ref: '#/components/schemas/TaskEntity'
         UsefulLinks:
           type: array
           items:

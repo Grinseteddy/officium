@@ -24,6 +24,12 @@ public class TaskResponse {
                 "Task has been created "+taskEntity.getId(), UUID.randomUUID().toString());
     }
 
+    public TaskResponse(Message message) {
+        this.taskEntity=null;
+        this.usefulLinks=null;
+        this.message=message;
+    }
+
     public TaskEntity getTaskEntity() {
         return taskEntity;
     }

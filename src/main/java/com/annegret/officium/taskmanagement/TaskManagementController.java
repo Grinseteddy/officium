@@ -1,12 +1,12 @@
 package com.annegret.officium.taskmanagement;
 
-import com.annegret.officium.taskmanagement.entities.TaskEntity;
-import com.annegret.officium.taskmanagement.entities.TaskRepository;
-import com.annegret.officium.taskmanagement.entities.TaskRequest;
-import com.annegret.officium.taskmanagement.entities.TaskResponse;
+import com.annegret.officium.taskmanagement.entities.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @RestController
 public class TaskManagementController {
@@ -46,6 +46,10 @@ public class TaskManagementController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task ID required");
             }
             TaskEntity taskEntity=taskRepository.findTaskEntitiesById(taskId);
+            if (taskEntity==null) {
+                Message message =new Message("NOTASKFOUND", Message.severity.WARNING, "Task "+ taskId+" couldn't be found", UUID.randomUUID().toString());
+                return new TaskResponse(message);
+            }
             return new TaskResponse(taskEntity);
 
         } catch (Exception e) {
