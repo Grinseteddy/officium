@@ -20,7 +20,7 @@ public class TaskResponse {
     public TaskResponse(TaskEntity taskEntity) {
         this.taskEntity=taskEntity;
         this.usefulLinks=null;
-        this.message=new Message("TASKCRATED", Message.severity.SUCCESS,
+        this.message=new Message("TASKCREATED", Message.severity.SUCCESS,
                 "Task has been created "+taskEntity.getId(), UUID.randomUUID().toString());
     }
 
@@ -28,6 +28,12 @@ public class TaskResponse {
         this.taskEntity=null;
         this.usefulLinks=null;
         this.message=message;
+    }
+
+    public TaskResponse(TaskEntity taskEntity, Message message) {
+        this.taskEntity=taskEntity;
+        this.usefulLinks=null;
+        this.message=new Message(message.getCode(), message.getSeverity(), message.getMessage(), message.getTrackingId());
     }
 
     public TaskEntity getTaskEntity() {
