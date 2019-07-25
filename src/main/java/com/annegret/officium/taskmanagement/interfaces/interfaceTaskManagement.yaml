@@ -3,6 +3,11 @@ info:
   title: Officium Task Management
   description: Task management service for light weight task management Officium
   version: 1.0.0
+servers:
+  - url: http://localhost:8081/v1
+    description: URL for local testing
+  - url: http://aws.production.by:8085/v1
+    description: Production server at AWS
 paths:
   /tasks:
     post:
@@ -174,6 +179,10 @@ components:
           type: string
           format: date
           example: 2019-07-23
+        Project:
+          description: Project to which the task belongs - can be empty
+          type: string
+          example: 6cd08a7b-59e0-41e0-a8c1-23338ab31943
 
     TaskEntity:
       description: Task for creation which is assigned to a user, at creation the task

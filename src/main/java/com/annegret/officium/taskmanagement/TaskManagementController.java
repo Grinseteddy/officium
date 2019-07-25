@@ -4,9 +4,11 @@ import com.annegret.officium.taskmanagement.entities.*;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
@@ -99,6 +101,13 @@ public class TaskManagementController {
                 message.setMessage(message.getMessage()+";duedate: "+taskEntity.getDuedate().toString()+" -> "+taskRequest.getDuedate().toString());
                 taskEntity.setDuedate(taskRequest.getDuedate());
             }
+            if (taskEntity.getProject()==null && taskRequest.getProject()!=null) {
+                message.setMessage(message.getMessage() + ";project: -> "+taskRequest.getProject());
+                taskEntity.setProject(taskRequest.getProject());
+            } else if (!taskEntity.getProject().equals(taskRequest.getProject())) {
+                message.setMessage(message.getMessage()+";project: "+taskEntity.getProject()+" -> "+taskRequest.getProject());
+                taskEntity.setProject(taskRequest.getProject());
+            }
             taskRepository.save(taskEntity);
             return new TaskResponse(taskEntity,message);
 
@@ -106,6 +115,39 @@ public class TaskManagementController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No suitable task found");
         }
 
+    }
+
+    @GetMapping("tasks/user/{userId}")
+    @ResponseBody
+    public ArrayList<TaskEntity> getTasksByUser(@PathVariable String userId) throws ResponseStatusException {
+        try {
+            if (userId==null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID is required");
+            }
+            ArrayList<TaskEntity> taskList = taskRepository.findTaskEntitiesByAssignee(userId);
+
+            return taskList;
+
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Assignee not found");
+
+        }
+    }
+
+    @GetMapping("tasks/project/{projectId}")
+    @ResponseBody
+    public ArrayList<TaskEntity> getTasksByProject(@PathVariable String projectId) throws ResponseStatusException {
+        try {
+            if (projectId==null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project ID can't be empty.");
+            }
+            ArrayList<TaskEntity> tasksInProject = taskRepository.findTaskEntitiesByProject(projectId);
+            return tasksInProject;
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project not found");
+        }
     }
 
 }

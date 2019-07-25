@@ -47,6 +47,9 @@ public class TaskEntity {
     @Column(name="duedate")
     private LocalDate duedate;
 
+    @Column(name = "project")
+    private String project;
+
     public TaskEntity() {
 
     }
@@ -93,6 +96,31 @@ public class TaskEntity {
         this.thread=null;
 
         this.duedate=duedate;
+    }
+
+    public TaskEntity(String name, String description, String assignee, LocalDate duedate, String project) {
+        this.id= UUID.randomUUID().toString();
+        this.name=name;
+        this.description=description;
+        this.assignee=assignee;
+
+        //TODO get status model from project management
+        this.status="NEW";
+
+        //TODO get session user from somewhere
+        this.updatedBy="21a2bac3-a2c4-4e45-b6da-2248bb36b82e";
+
+        this.updatedAt=LocalDateTime.now();
+
+        this.createdAt=LocalDateTime.now();
+
+        this.createdBy="21a2bac3-a2c4-4e45-b6da-2248bb36b82e";
+
+        this.thread=null;
+
+        this.duedate=duedate;
+
+        this.project=project;
     }
 
     public TaskEntity(TaskRequest taskRequest) {
@@ -202,5 +230,13 @@ public class TaskEntity {
 
     public void setDuedate(LocalDate duedate) {
         this.duedate = duedate;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project=project;
     }
 }

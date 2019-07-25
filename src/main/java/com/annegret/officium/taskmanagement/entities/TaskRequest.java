@@ -8,6 +8,7 @@ public class TaskRequest {
     private String description;
     private String assignee;
     private LocalDate duedate;
+    private String project;
 
     public TaskRequest() {
 
@@ -24,6 +25,14 @@ public class TaskRequest {
         this.description=description;
         this.assignee=assignee;
         this.duedate=duedate;
+    }
+
+    public TaskRequest(String name, String description, String assignee, LocalDate duedate, String project) {
+        this.name=name;
+        this.description=description;
+        this.assignee=assignee;
+        this.duedate=duedate;
+        this.project=project;
     }
 
     public String getName() {
@@ -53,4 +62,12 @@ public class TaskRequest {
     public LocalDate getDuedate() { return duedate;}
 
     public void setDuedate(LocalDate duedate) { this.duedate=duedate;}
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project=project;
+    }
 }

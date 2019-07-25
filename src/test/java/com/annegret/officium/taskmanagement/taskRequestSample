@@ -1,5 +1,7 @@
 {
   "name": "testtask",
   "description": "Task to test first Taskmanagement",
-  "assignee": "21a2bac3-a2c4-4e45-b6da-2248bb36b82e"
+  "assignee": "21a2bac3-a2c4-4e45-b6da-2248bb36b82e",
+  "duedate": "2019-10-10",
+  "project": "2b6ba31e-2da4-4055-a43e-fa1efa72d449"
 }
