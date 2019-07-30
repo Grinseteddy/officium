@@ -20,6 +20,16 @@ public class TaskManagementController {
         this.taskRepository = taskRepository;
     }
 
+    @GetMapping("/tasks")
+    public String   taskAvailable() {
+        try {
+            return "Hello Annegret";
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task not available");
+        }
+    }
+
     @PostMapping("/tasks")
     public TaskResponse addTask(@RequestBody TaskRequest taskRequest) throws ResponseStatusException {
         try {
@@ -124,9 +134,8 @@ public class TaskManagementController {
             if (userId==null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID is required");
             }
-            ArrayList<TaskEntity> taskList = taskRepository.findTaskEntitiesByAssignee(userId);
 
-            return taskList;
+            return taskRepository.findTaskEntitiesByAssignee(userId);
 
 
         } catch (Exception e) {
@@ -142,8 +151,7 @@ public class TaskManagementController {
             if (projectId==null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project ID can't be empty.");
             }
-            ArrayList<TaskEntity> tasksInProject = taskRepository.findTaskEntitiesByProject(projectId);
-            return tasksInProject;
+            return taskRepository.findTaskEntitiesByProject(projectId);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project not found");

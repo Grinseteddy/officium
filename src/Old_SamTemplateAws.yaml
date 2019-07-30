@@ -1,0 +1,18 @@
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: taskmanagement.officium
+    Description: Task management server of officium
+    Author: annegret.junker
+    SpdxLicenseId: MIT
+    LicenseUrl: https://spdx.org/licenses/MIT.html
+    ReadmeUrl: https://github.com/Grinseteddy/officiumTaskmanagement/blob/master/src/Readme.txt
+    Labels:
+    - 'officium'
+    - 'taskmanagement'
+    HomePageUrl: https://github.com/Grinseteddy/officiumTaskmanagement
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/Grinseteddy/officiumTaskmanagement
+
+Resources:
+  TaskManagement:
+    Type: AWS::Lambda::Application
