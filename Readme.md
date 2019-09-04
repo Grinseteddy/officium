@@ -1,5 +1,11 @@
 #Officium
 ##Task Management
+This software is designed to create a light weight task management application.
+The software is designed as complete microservice architecture.
+
+The according service is the task management service. It provides CRUD methods
+to tasks. Please have a look into interfaceTasksManagement.yaml.
+
 This is the task management microservice of the Officium application.
 The microservices accesses a postgreSQL database - offered in AWS.
 A task can be determined by its UUID, name or assigned user.
