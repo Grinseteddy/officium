@@ -1,5 +1,5 @@
-#Officium
-##Task Management
+#Officium##
+##Task Management##
 This software is designed to create a light weight task management application.
 The software is designed as complete microservice architecture.
 
@@ -12,7 +12,7 @@ A task can be determined by its UUID, name or assigned user.
 A task can be created by its name and other optional data. Please refer to the
 according OpenAPI description available under com/annegret/officium/taskmanagement/interfaces/interfaceTaskManagement.yaml.
 
-##Installation
+##Installation##
 The microservices is supposed to be installed in AWS (with according connection 
 string to the database). Anyhow it is delivered as docker container with 
 
@@ -20,7 +20,7 @@ string to the database). Anyhow it is delivered as docker container with
 
 In AWS, the microservice is running as daemon.
 
-##Further Microservices
+##Further Microservices##
 
 The entire Officium application needs more microservices. The following microservices
 are available at the moment:
